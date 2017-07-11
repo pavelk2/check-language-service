@@ -21,7 +21,7 @@ app.use(cors())
 app.get('/checklanguage', function(req, res){
   var query = req.param('q')
   console.log(query);
-  request.get("http://ws.detectlanguage.com/0.2/detect?q="+query+"&key="+process.env.DETECTLANGUAGE_API_KEY, function(error, response, body){
+  request.get("http://ws.detectlanguage.com/0.2/detect?q="+encodeURIComponent(query)+"&key="+process.env.DETECTLANGUAGE_API_KEY, function(error, response, body){
     res.setHeader('Content-Type', 'application/json');
     res.send(body);
   })
