@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var request = require('request')
+var cors = require('cors')
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -11,6 +13,16 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
   response.render('pages/index');
+});
+
+
+app.use(cors())
+
+app.get('/checklanguage', function(req, res){
+  request.get("http://ws.detectlanguage.com/0.2/detect?q="+req.param.q+"&key="+process.env.DETECTLANGUAGE_API_KEY, function(error, response, body){
+    res.setHeader('Content-Type', 'application/json');
+    res.send(body);
+  })
 });
 
 app.listen(app.get('port'), function() {
